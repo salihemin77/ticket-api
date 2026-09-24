@@ -134,4 +134,14 @@ public class TicketServiceImpl implements TicketService {
         user.getId();
         return ticketRepository.findByUserId(user.getId());
     }
+
+    @Override
+    public List<Ticket> searchByTitle(String title) {
+        return ticketRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    @Override
+    public List<Ticket> findByStatus(TicketStatus status) {
+        return ticketRepository.findByStatus(status) ;
+    }
 }

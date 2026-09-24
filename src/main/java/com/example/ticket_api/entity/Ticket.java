@@ -2,6 +2,7 @@ package com.example.ticket_api.entity;
 
 import com.example.ticket_api.enums.TicketStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
@@ -11,15 +12,17 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+@NotBlank
    @Column(name = "title")
     private String title;
-
+@NotBlank
    @Column(name = "description")
     private String description;
+
    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private TicketStatus status;
+
    @Column(name = "createdAt")
     private LocalDateTime createdAt;
 

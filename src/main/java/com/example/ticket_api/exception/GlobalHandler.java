@@ -1,6 +1,7 @@
 package com.example.ticket_api.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -38,6 +39,13 @@ public class GlobalHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public String handleUnauthorizedAccessException(UnauthorizedAccessException exception) {
         return exception.getMessage();
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        return exception.getBindingResult()
+                .getFieldError()
+                .getDefaultMessage();
     }
 
 

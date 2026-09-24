@@ -2,6 +2,7 @@ package com.example.ticket_api.entity;
 
 import com.example.ticket_api.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -9,10 +10,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotBlank
     @Column(name = "name")
     private String name;
+    @NotBlank
     @Column(name = "email")
     private String email;
+    @NotBlank
     @Column(name = "password")
     private String password;
     @Enumerated(EnumType.STRING)
