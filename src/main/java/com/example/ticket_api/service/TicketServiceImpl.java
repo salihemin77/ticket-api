@@ -10,6 +10,8 @@ import com.example.ticket_api.exception.UnauthorizedAccessException;
 import com.example.ticket_api.exception.UserNotFoundException;
 import com.example.ticket_api.repository.TicketRepository;
 import com.example.ticket_api.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -143,5 +145,10 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> findByStatus(TicketStatus status) {
         return ticketRepository.findByStatus(status) ;
+    }
+
+    @Override
+    public Page<Ticket> findAll(Pageable pageable) {
+        return ticketRepository.findAll(pageable);
     }
 }

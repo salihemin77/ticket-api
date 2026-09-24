@@ -6,6 +6,8 @@ import com.example.ticket_api.enums.TicketStatus;
 import com.example.ticket_api.mapper.TicketMapper;
 import com.example.ticket_api.service.TicketService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,6 +60,11 @@ public class TicketController {
     @GetMapping("/tickets/status")
     public List<TicketResponseDTO> findByStatus(@RequestParam TicketStatus status) {
         return ticketService.findByStatus(status).stream().map(ticketMapper::toDTO).toList();
+    }
+    @GetMapping("/tickets/page")
+    public Page<TicketResponseDTO> findAllPage(Pageable pageable) {
+        return ticketService.findAll(pageable)
+                .map(ticketMapper::toDTO);
     }
 
 
