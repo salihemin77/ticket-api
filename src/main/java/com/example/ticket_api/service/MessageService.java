@@ -1,6 +1,7 @@
 package com.example.ticket_api.service;
 
 import com.example.ticket_api.entity.Message;
+import com.example.ticket_api.entity.Ticket;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface MessageService  {
     void deleteById(Integer id);
 
     Message update(Message message);
+    List<Message> findMyMessages();
 }

@@ -10,5 +10,6 @@ public interface TicketService {
     List<Ticket> findAll();
     void deleteById(Integer id);
     Ticket update(Ticket ticket);
+    List<Ticket> findMyTickets();
 
 }

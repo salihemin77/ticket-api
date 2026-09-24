@@ -34,6 +34,11 @@ public class GlobalHandler {
     public String handleMessageNotFoundException(MessageNotFoundException exception) {
         return exception.getMessage();
     }
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String handleUnauthorizedAccessException(UnauthorizedAccessException exception) {
+        return exception.getMessage();
+    }
 
 
 

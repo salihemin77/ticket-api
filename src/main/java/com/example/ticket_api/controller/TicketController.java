@@ -37,6 +37,10 @@ public class TicketController {
         return ticketService.update(ticket);
 
     }
+    @GetMapping("/tickets/my")
+    public List<Ticket> findMyTickets(){
+        return ticketService.findMyTickets();
+    }
 
 
 

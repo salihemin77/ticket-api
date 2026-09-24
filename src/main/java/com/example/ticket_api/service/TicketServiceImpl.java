@@ -2,12 +2,16 @@ package com.example.ticket_api.service;
 
 import com.example.ticket_api.entity.Ticket;
 import com.example.ticket_api.entity.User;
+import com.example.ticket_api.enums.Role;
 import com.example.ticket_api.enums.TicketStatus;
 import com.example.ticket_api.exception.InvalidStatusTransitionException;
 import com.example.ticket_api.exception.TicketNotFoundException;
+import com.example.ticket_api.exception.UnauthorizedAccessException;
 import com.example.ticket_api.exception.UserNotFoundException;
 import com.example.ticket_api.repository.TicketRepository;
 import com.example.ticket_api.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,8 +44,21 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket findById(Integer id) {
-        return ticketRepository.findById(id)
+      Ticket ticket=   ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket not found"));
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         String email = authentication.getName();
+         User user=userRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException("User not found"));
+
+
+        if (user.getRole() == Role.CUSTOMER &&
+                ticket.getUser().getId() != user.getId()) {
+
+            throw new UnauthorizedAccessException("You can only view your own tickets");
+        }
+
+
+         return ticket;
     }
 
     @Override
@@ -106,5 +123,15 @@ public class TicketServiceImpl implements TicketService {
 
         // user ve createdAt'e dokunmuyoruz
         return ticketRepository.save(existingTicket);
+    }
+
+    @Override
+    public List<Ticket> findMyTickets() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user= userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        user.getId();
+        return ticketRepository.findByUserId(user.getId());
     }
 }

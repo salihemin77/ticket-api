@@ -39,4 +39,10 @@ public class MessageController {
     }
 
 
+    @GetMapping("/messages/my")
+    public List<Message> findMyMessages() {
+        return messageService.findMyMessages();
+    }
+
+
 }
